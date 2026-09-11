@@ -1,11 +1,30 @@
+import { fetchForecast } from './api/forecastClient.js';
+import { geocodeCity } from './api/geocodingClient.js';
 import { parseArgs } from './cli/parseArgs.js';
 
-function main(): void {
+async function main(): Promise<void> {
   try {
     const args = process.argv.slice(2);
     const options = parseArgs(args);
 
-    console.log(options);
+    const city = options.cities[0];
+
+    if (!city) {
+      throw new Error('Город не указан');
+    }
+
+    const location = await geocodeCity(city);
+
+    const forecast = await fetchForecast(
+      location.latitude,
+      location.longitude,
+      options.days,
+    );
+
+    console.log({
+      location,
+      forecast,
+    });
   } catch (error) {
     if (error instanceof Error) {
       console.error(`Ошибка: ${error.message}`);
@@ -17,4 +36,4 @@ function main(): void {
   }
 }
 
-main();
+void main();
