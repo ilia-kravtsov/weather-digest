@@ -1,3 +1,5 @@
+import { fetchJson } from './httpClient.js';
+
 export interface GeocodingResult {
   name: string;
   country: string;
@@ -28,15 +30,7 @@ export async function geocodeCity(
     format: 'json',
   }).toString();
 
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(
-      `Ошибка вычисления геопозиции: HTTP ${response.status}`,
-    );
-  }
-
-  const data = (await response.json()) as GeocodingApiResponse;
+  const data = await fetchJson<GeocodingApiResponse>(url);
 
   const location = data.results?.[0];
 

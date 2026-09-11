@@ -1,3 +1,5 @@
+import { fetchJson } from './httpClient.js';
+
 export interface ForecastDay {
   date: string;
   temperatureMax: number;
@@ -38,15 +40,7 @@ export async function fetchForecast(
     timezone: 'auto',
   }).toString();
 
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(
-      `Ошибка получения прогноза: HTTP ${response.status}`,
-    );
-  }
-
-  const data = (await response.json()) as ForecastApiResponse;
+  const data = await fetchJson<ForecastApiResponse>(url);
 
   const forecastDays = data.daily.time.map((date, index) => ({
     date,
