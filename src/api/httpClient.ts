@@ -1,3 +1,4 @@
+import { config } from '../config.js';
 import {
   ClientHttpError,
   InvalidJsonError,
@@ -10,13 +11,11 @@ export interface FetchJsonOptions {
   timeoutMs?: number;
 }
 
-const DEFAULT_TIMEOUT_MS = 5000;
-
 export async function fetchJson<T>(
   url: URL,
   options: FetchJsonOptions = {},
 ): Promise<T> {
-  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const timeoutMs = options.timeoutMs ?? config.requestTimeoutMs;
 
   const controller = new AbortController();
 

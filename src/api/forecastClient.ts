@@ -1,3 +1,5 @@
+import { config } from '../config.js';
+
 import { fetchJson } from './httpClient.js';
 
 export interface ForecastDay {
@@ -28,7 +30,7 @@ export async function fetchForecast(
   days: number,
 ): Promise<ForecastResult> {
   const url = new URL(
-    'https://api.open-meteo.com/v1/forecast',
+    `${config.forecastBaseUrl}/forecast`,
   );
 
   url.search = new URLSearchParams({

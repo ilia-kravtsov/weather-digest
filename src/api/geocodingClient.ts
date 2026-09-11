@@ -1,3 +1,4 @@
+import { config } from '../config.js';
 import { fetchJson } from './httpClient.js';
 
 export interface GeocodingResult {
@@ -20,7 +21,7 @@ export async function geocodeCity(
   city: string,
 ): Promise<GeocodingResult> {
   const url = new URL(
-    'https://geocoding-api.open-meteo.com/v1/search',
+    `${config.geocodingBaseUrl}/search`,
   );
 
   url.search = new URLSearchParams({
