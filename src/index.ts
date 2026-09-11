@@ -2,6 +2,15 @@ import { fetchForecast } from './api/forecastClient.js';
 import { geocodeCity } from './api/geocodingClient.js';
 import { parseArgs } from './cli/parseArgs.js';
 
+import {
+  createWeatherReport,
+} from './services/weatherReportService.js';
+
+import {
+  readCachedReport,
+  saveReport,
+} from './storage/reportStorage.js';
+
 async function main(): Promise<void> {
   try {
     const args = process.argv.slice(2);
@@ -13,6 +22,20 @@ async function main(): Promise<void> {
       throw new Error('Город не указан');
     }
 
+    if (!options.noCache) {
+      const cachedReport = await readCachedReport(
+        city,
+        options.days,
+      );
+
+      if (cachedReport) {
+        console.log('Использован кешированный отчёт');
+        console.log(cachedReport);
+
+        return;
+      }
+    }
+
     const location = await geocodeCity(city);
 
     const forecast = await fetchForecast(
@@ -21,10 +44,17 @@ async function main(): Promise<void> {
       options.days,
     );
 
-    console.log({
+    const report = createWeatherReport(
+      city,
+      options.days,
       location,
       forecast,
-    });
+    );
+
+    const reportPath = await saveReport(report);
+
+    console.log(report);
+    console.log(`Отчёт сохранён: ${reportPath}`);
   } catch (error) {
     if (error instanceof Error) {
       console.error(`Ошибка: ${error.message}`);
