@@ -1,60 +1,66 @@
-import { fetchForecast } from './api/forecastClient.js';
-import { geocodeCity } from './api/geocodingClient.js';
 import { parseArgs } from './cli/parseArgs.js';
 
 import {
-  createWeatherReport,
-} from './services/weatherReportService.js';
-
-import {
-  readCachedReport,
-  saveReport,
-} from './storage/reportStorage.js';
+  processCity,
+} from './services/cityWeatherService.js';
 
 async function main(): Promise<void> {
   try {
     const args = process.argv.slice(2);
     const options = parseArgs(args);
 
-    const city = options.cities[0];
+    const results = await Promise.allSettled(
+      options.cities.map((city) =>
+        processCity(city, {
+          days: options.days,
+          noCache: options.noCache,
+        }),
+      ),
+    );
 
-    if (!city) {
-      throw new Error('Город не указан');
-    }
+    let hasErrors = false;
 
-    if (!options.noCache) {
-      const cachedReport = await readCachedReport(
-        city,
-        options.days,
-      );
+    results.forEach((result, index) => {
+      const city = options.cities[index];
 
-      if (cachedReport) {
-        console.log('Использован кешированный отчёт');
-        console.log(cachedReport);
+      if (result.status === 'fulfilled') {
+        const {
+          report,
+          fromCache,
+          reportPath,
+        } = result.value;
+
+        console.log(`\n=== ${report.city} ===`);
+
+        if (fromCache) {
+          console.log('Использован кешированный отчёт');
+        }
+
+        console.log(report);
+
+        if (reportPath) {
+          console.log(`Отчёт сохранён: ${reportPath}`,);
+        }
 
         return;
       }
+
+      hasErrors = true;
+
+      if (result.reason instanceof Error) {
+        console.error(
+          `\nОшибка для города "${city}": ${result.reason.message}`,
+        );
+      } else {
+        console.error(
+          `\nОшибка для города "${city}": неизвестная ошибка`,
+        );
+      }
+    });
+
+    if (hasErrors) {
+      process.exitCode = 1;
     }
-
-    const location = await geocodeCity(city);
-
-    const forecast = await fetchForecast(
-      location.latitude,
-      location.longitude,
-      options.days,
-    );
-
-    const report = createWeatherReport(
-      city,
-      options.days,
-      location,
-      forecast,
-    );
-
-    const reportPath = await saveReport(report);
-
-    console.log(report);
-    console.log(`Отчёт сохранён: ${reportPath}`);
   } catch (error) {
     if (error instanceof Error) {
       console.error(`Ошибка: ${error.message}`);
