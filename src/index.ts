@@ -1,5 +1,6 @@
+import { fetchForecast } from './api/forecastClient.js';
+import { geocodeCity } from './api/geocodingClient.js';
 import { parseArgs } from './cli/parseArgs.js';
-import { geocodeCity } from './api/openMeteoClient.js';
 
 async function main(): Promise<void> {
   try {
@@ -14,7 +15,16 @@ async function main(): Promise<void> {
 
     const location = await geocodeCity(city);
 
-    console.log(location);
+    const forecast = await fetchForecast(
+      location.latitude,
+      location.longitude,
+      options.days,
+    );
+
+    console.log({
+      location,
+      forecast,
+    });
   } catch (error) {
     if (error instanceof Error) {
       console.error(`Ошибка: ${error.message}`);
@@ -26,4 +36,4 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+void main();
