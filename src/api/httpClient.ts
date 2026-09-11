@@ -1,3 +1,11 @@
+import {
+  ClientHttpError,
+  InvalidJsonError,
+  NetworkError,
+  ServerHttpError,
+  TimeoutError,
+} from '../errors/httpErrors.js';
+
 export interface FetchJsonOptions {
   timeoutMs?: number;
 }
@@ -21,32 +29,44 @@ export async function fetchJson<T>(
       signal: controller.signal,
     });
 
-    if (!response.ok) {
-      throw new Error(
-        `HTTP ${response.status}: ${response.statusText}`,
-      );
+    if (response.status >= 400 && response.status < 500) {
+      throw new ClientHttpError(response.status);
+    }
+
+    if (response.status >= 500) {
+      throw new ServerHttpError(response.status);
     }
 
     try {
       return (await response.json()) as T;
     } catch {
-      throw new Error('Сервер вернул некорректный JSON');
+      throw new InvalidJsonError();
     }
   } catch (error) {
+    if (
+      error instanceof ClientHttpError ||
+      error instanceof ServerHttpError ||
+      error instanceof InvalidJsonError
+    ) {
+      throw error;
+    }
+
     if (
       error instanceof Error &&
       error.name === 'AbortError'
     ) {
-      throw new Error(
-        `Превышено время ожидания запроса (${timeoutMs} мс)`,
-      );
+      throw new TimeoutError(timeoutMs);
+    }
+
+    if (error instanceof TypeError) {
+      throw new NetworkError();
     }
 
     if (error instanceof Error) {
       throw error;
     }
 
-    throw new Error('Неизвестная ошибка HTTP-запроса');
+    throw new NetworkError();
   } finally {
     clearTimeout(timeoutId);
   }
