@@ -69,27 +69,41 @@ function parsePrecipitationUnit(
 }
 
 export const config = {
-  geocodingBaseUrl:
-    process.env.GEOCODING_BASE_URL ??
-    DEFAULT_GEOCODING_BASE_URL,
+  get geocodingBaseUrl(): string {
+    return (
+      process.env.GEOCODING_BASE_URL ??
+      DEFAULT_GEOCODING_BASE_URL
+    );
+  },
 
-  forecastBaseUrl:
-    process.env.FORECAST_BASE_URL ??
-    DEFAULT_FORECAST_BASE_URL,
+  get forecastBaseUrl(): string {
+    return (
+      process.env.FORECAST_BASE_URL ??
+      DEFAULT_FORECAST_BASE_URL
+    );
+  },
 
-  requestTimeoutMs: parsePositiveInteger(
-    process.env.REQUEST_TIMEOUT_MS,
-    DEFAULT_REQUEST_TIMEOUT_MS,
-    'REQUEST_TIMEOUT_MS',
-  ),
+  get requestTimeoutMs(): number {
+    return parsePositiveInteger(
+      process.env.REQUEST_TIMEOUT_MS,
+      DEFAULT_REQUEST_TIMEOUT_MS,
+      'REQUEST_TIMEOUT_MS',
+    );
+  },
 
-  reportsDir: process.env.REPORTS_DIR ?? 'reports',
+  get reportsDir(): string {
+    return process.env.REPORTS_DIR ?? 'reports';
+  },
 
-  temperatureUnit: parseTemperatureUnit(
-    process.env.TEMPERATURE_UNIT,
-  ),
+  get temperatureUnit(): TemperatureUnit {
+    return parseTemperatureUnit(
+      process.env.TEMPERATURE_UNIT,
+    );
+  },
 
-  precipitationUnit: parsePrecipitationUnit(
-    process.env.PRECIPITATION_UNIT,
-  ),
+  get precipitationUnit(): PrecipitationUnit {
+    return parsePrecipitationUnit(
+      process.env.PRECIPITATION_UNIT,
+    );
+  },
 };
