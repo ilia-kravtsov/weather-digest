@@ -1,14 +1,8 @@
-import type {
-  ForecastResult,
-} from '../api/forecastClient.js';
+import type { ForecastResult } from '../api/forecastClient.js';
 
-import type {
-  GeocodingResult,
-} from '../api/geocodingClient.js';
+import type { GeocodingResult } from '../api/geocodingClient.js';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
 import { config } from '../config.js';
 

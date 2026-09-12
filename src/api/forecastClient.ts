@@ -29,15 +29,12 @@ export async function fetchForecast(
   longitude: number,
   days: number,
 ): Promise<ForecastResult> {
-  const url = new URL(
-    `${config.forecastBaseUrl}/forecast`,
-  );
+  const url = new URL(`${config.forecastBaseUrl}/forecast`);
 
   url.search = new URLSearchParams({
     latitude: String(latitude),
     longitude: String(longitude),
-    daily:
-      'temperature_2m_max,temperature_2m_min,precipitation_sum',
+    daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
     forecast_days: String(days),
     timezone: 'auto',
     temperature_unit: config.temperatureUnit,

@@ -1,18 +1,11 @@
 import { fetchForecast } from '../api/forecastClient.js';
 import { geocodeCity } from '../api/geocodingClient.js';
 
-import {
-  createWeatherReport,
-} from './weatherReportService.js';
+import { createWeatherReport } from './weatherReportService.js';
 
-import {
-  readCachedReport,
-  saveReport,
-} from '../storage/reportStorage.js';
+import { readCachedReport, saveReport } from '../storage/reportStorage.js';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
 export interface ProcessCityOptions {
   days: number;
@@ -30,10 +23,7 @@ export async function processCity(
   options: ProcessCityOptions,
 ): Promise<ProcessCityResult> {
   if (!options.noCache) {
-    const cachedReport = await readCachedReport(
-      city,
-      options.days,
-    );
+    const cachedReport = await readCachedReport(city, options.days);
 
     if (cachedReport) {
       return {
@@ -51,12 +41,7 @@ export async function processCity(
     options.days,
   );
 
-  const report = createWeatherReport(
-    city,
-    options.days,
-    location,
-    forecast,
-  );
+  const report = createWeatherReport(city, options.days, location, forecast);
 
   const reportPath = await saveReport(report);
 

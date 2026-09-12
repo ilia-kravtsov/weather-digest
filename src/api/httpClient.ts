@@ -50,10 +50,7 @@ export async function fetchJson<T>(
       throw error;
     }
 
-    if (
-      error instanceof Error &&
-      error.name === 'AbortError'
-    ) {
+    if (error instanceof Error && error.name === 'AbortError') {
       throw new TimeoutError(timeoutMs);
     }
 

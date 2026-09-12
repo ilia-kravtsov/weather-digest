@@ -1,28 +1,15 @@
-import {
-  afterEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { fetchForecast } from '../api/forecastClient.js';
 import { geocodeCity } from '../api/geocodingClient.js';
 
-import {
-  readCachedReport,
-  saveReport,
-} from '../storage/reportStorage.js';
+import { readCachedReport, saveReport } from '../storage/reportStorage.js';
 
-import {
-  createWeatherReport,
-} from './weatherReportService.js';
+import { createWeatherReport } from './weatherReportService.js';
 
 import { processCity } from './cityWeatherService.js';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
 vi.mock('../api/geocodingClient.js', () => ({
   geocodeCity: vi.fn(),
@@ -45,8 +32,7 @@ const geocodeCityMock = vi.mocked(geocodeCity);
 const fetchForecastMock = vi.mocked(fetchForecast);
 const readCachedReportMock = vi.mocked(readCachedReport);
 const saveReportMock = vi.mocked(saveReport);
-const createWeatherReportMock =
-  vi.mocked(createWeatherReport);
+const createWeatherReportMock = vi.mocked(createWeatherReport);
 
 const report: WeatherReport = {
   requestedCity: 'Москва',
@@ -87,10 +73,7 @@ describe('processCity', () => {
       fromCache: true,
     });
 
-    expect(readCachedReportMock).toHaveBeenCalledWith(
-      'Москва',
-      3,
-    );
+    expect(readCachedReportMock).toHaveBeenCalledWith('Москва', 3);
 
     expect(geocodeCityMock).not.toHaveBeenCalled();
     expect(fetchForecastMock).not.toHaveBeenCalled();
@@ -114,9 +97,7 @@ describe('processCity', () => {
 
     createWeatherReportMock.mockReturnValue(report);
 
-    saveReportMock.mockResolvedValue(
-      'reports/Москва-2026-09-11.json',
-    );
+    saveReportMock.mockResolvedValue('reports/Москва-2026-09-11.json');
 
     const result = await processCity('Москва', {
       days: 3,
@@ -129,18 +110,11 @@ describe('processCity', () => {
       reportPath: 'reports/Москва-2026-09-11.json',
     });
 
-    expect(readCachedReportMock).toHaveBeenCalledWith(
-      'Москва',
-      3,
-    );
+    expect(readCachedReportMock).toHaveBeenCalledWith('Москва', 3);
 
     expect(geocodeCityMock).toHaveBeenCalledWith('Москва');
 
-    expect(fetchForecastMock).toHaveBeenCalledWith(
-      55.75204,
-      37.61781,
-      3,
-    );
+    expect(fetchForecastMock).toHaveBeenCalledWith(55.75204, 37.61781, 3);
 
     expect(createWeatherReportMock).toHaveBeenCalled();
     expect(saveReportMock).toHaveBeenCalledWith(report);
@@ -161,9 +135,7 @@ describe('processCity', () => {
 
     createWeatherReportMock.mockReturnValue(report);
 
-    saveReportMock.mockResolvedValue(
-      'reports/Москва-2026-09-11.json',
-    );
+    saveReportMock.mockResolvedValue('reports/Москва-2026-09-11.json');
 
     const result = await processCity('Москва', {
       days: 3,
@@ -189,9 +161,7 @@ describe('processCity', () => {
         days: 3,
         noCache: false,
       }),
-    ).rejects.toThrow(
-      'Город "Неизвестный" не найден',
-    );
+    ).rejects.toThrow('Город "Неизвестный" не найден');
 
     expect(fetchForecastMock).not.toHaveBeenCalled();
     expect(saveReportMock).not.toHaveBeenCalled();
