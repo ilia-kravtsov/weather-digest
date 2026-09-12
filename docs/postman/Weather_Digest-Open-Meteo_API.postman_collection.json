@@ -1,0 +1,374 @@
+{
+  "info": {
+    "_postman_id": "2953cf0e-8c98-47f8-97cd-7e285aec8dea",
+    "name": "Weather Digest - Open-Meteo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24251088"
+  },
+  "item": [
+    {
+      "name": "Geocode City",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{geocodingBaseUrl}}/search?name={{city}}&count=1&language=ru&format=json",
+          "host": [
+            "{{geocodingBaseUrl}}"
+          ],
+          "path": [
+            "search"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "{{city}}"
+            },
+            {
+              "key": "count",
+              "value": "1"
+            },
+            {
+              "key": "language",
+              "value": "ru"
+            },
+            {
+              "key": "format",
+              "value": "json"
+            }
+          ]
+        },
+        "description": "Converts a city name into geographic coordinates using the Open-Meteo Geocoding API."
+      },
+      "response": [
+        {
+          "name": "Success - Moscow",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{geocodingBaseUrl}}/search?name={{city}}&count=1&language=ru&format=json",
+              "host": [
+                "{{geocodingBaseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "{{city}}"
+                },
+                {
+                  "key": "count",
+                  "value": "1"
+                },
+                {
+                  "key": "language",
+                  "value": "ru"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sat, 12 Sep 2026 08:04:05 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "content-length",
+              "value": "239"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "x-encoding-time",
+              "value": "0.002956390380859375 ms"
+            },
+            {
+              "key": "content-encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"results\": [\n    {\n      \"id\": 524901,\n      \"name\": \"Москва\",\n      \"latitude\": 55.75204,\n      \"longitude\": 37.61781,\n      \"elevation\": 155,\n      \"feature_code\": \"PPLC\",\n      \"country_code\": \"RU\",\n      \"admin1_id\": 524894,\n      \"timezone\": \"Europe/Moscow\",\n      \"population\": 10381222,\n      \"country_id\": 2017370,\n      \"country\": \"Россия\",\n      \"admin1\": \"Москва\"\n    }\n  ],\n  \"generationtime_ms\": 1.3262033\n}"
+        },
+        {
+          "name": "City Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{geocodingBaseUrl}}/search?name={{city}}&count=1&language=ru&format=json",
+              "host": [
+                "{{geocodingBaseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "{{city}}"
+                },
+                {
+                  "key": "count",
+                  "value": "1"
+                },
+                {
+                  "key": "language",
+                  "value": "ru"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sat, 12 Sep 2026 08:07:15 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "content-length",
+              "value": "39"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "x-encoding-time",
+              "value": "0.004220008850097656 ms"
+            },
+            {
+              "key": "content-encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"generationtime_ms\": 1.1814833\n}"
+        }
+      ]
+    },
+    {
+      "name": "Weather Forecast",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{forecastBaseUrl}}/forecast?latitude={{lat}}&longitude={{lon}}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&forecast_days={{days}}&timezone=auto",
+          "host": [
+            "{{forecastBaseUrl}}"
+          ],
+          "path": [
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "{{lat}}"
+            },
+            {
+              "key": "longitude",
+              "value": "{{lon}}"
+            },
+            {
+              "key": "daily",
+              "value": "temperature_2m_max,temperature_2m_min,precipitation_sum"
+            },
+            {
+              "key": "forecast_days",
+              "value": "{{days}}"
+            },
+            {
+              "key": "timezone",
+              "value": "auto"
+            }
+          ]
+        },
+        "description": "Returns daily minimum and maximum temperature and precipitation forecast for the specified coordinates."
+      },
+      "response": [
+        {
+          "name": "Success - Moscow Forecast",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{forecastBaseUrl}}/forecast?latitude={{lat}}&longitude={{lon}}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&forecast_days={{days}}&timezone=auto",
+              "host": [
+                "{{forecastBaseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "{{lat}}"
+                },
+                {
+                  "key": "longitude",
+                  "value": "{{lon}}"
+                },
+                {
+                  "key": "daily",
+                  "value": "temperature_2m_max,temperature_2m_min,precipitation_sum"
+                },
+                {
+                  "key": "forecast_days",
+                  "value": "{{days}}"
+                },
+                {
+                  "key": "timezone",
+                  "value": "auto"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sat, 12 Sep 2026 08:11:55 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "transfer-encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "content-encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"latitude\": 55.75,\n  \"longitude\": 37.625,\n  \"generationtime_ms\": 0.052809715270996094,\n  \"utc_offset_seconds\": 10800,\n  \"timezone\": \"Europe/Moscow\",\n  \"timezone_abbreviation\": \"GMT+3\",\n  \"elevation\": 151,\n  \"daily_units\": {\n    \"time\": \"iso8601\",\n    \"temperature_2m_max\": \"°C\",\n    \"temperature_2m_min\": \"°C\",\n    \"precipitation_sum\": \"mm\"\n  },\n  \"daily\": {\n    \"time\": [\n      \"2026-09-12\",\n      \"2026-09-13\",\n      \"2026-09-14\"\n    ],\n    \"temperature_2m_max\": [\n      17.3,\n      17.1,\n      18.8\n    ],\n    \"temperature_2m_min\": [\n      9.6,\n      9.3,\n      9.8\n    ],\n    \"precipitation_sum\": [\n      0,\n      0,\n      0\n    ]\n  }\n}"
+        },
+        {
+          "name": "Error - Invalid Latitude",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{forecastBaseUrl}}/forecast?latitude={{lat}}&longitude={{lon}}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&forecast_days={{days}}&timezone=auto",
+              "host": [
+                "{{forecastBaseUrl}}"
+              ],
+              "path": [
+                "forecast"
+              ],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "{{lat}}"
+                },
+                {
+                  "key": "longitude",
+                  "value": "{{lon}}"
+                },
+                {
+                  "key": "daily",
+                  "value": "temperature_2m_max,temperature_2m_min,precipitation_sum"
+                },
+                {
+                  "key": "forecast_days",
+                  "value": "{{days}}"
+                },
+                {
+                  "key": "timezone",
+                  "value": "auto"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Sat, 12 Sep 2026 08:25:11 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "content-length",
+              "value": "88"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "content-encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"reason\": \"Invalid value: Cannot initialize Float from invalid String value abc\",\n  \"error\": true\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "geocodingBaseUrl",
+      "value": "https://geocoding-api.open-meteo.com/v1"
+    },
+    {
+      "key": "forecastBaseUrl",
+      "value": "https://api.open-meteo.com/v1"
+    },
+    {
+      "key": "city",
+      "value": "Москва"
+    },
+    {
+      "key": "lat",
+      "value": "55.75204"
+    },
+    {
+      "key": "lon",
+      "value": "37.61781"
+    },
+    {
+      "key": "days",
+      "value": "3"
+    }
+  ]
+}
