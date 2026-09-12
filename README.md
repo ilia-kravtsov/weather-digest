@@ -47,12 +47,14 @@ cp .env.example .env
 
 ## Environment variables
 
-| Variable | Default value | Description |
-| --- | --- | --- |
-| `GEOCODING_BASE_URL` | `https://geocoding-api.open-meteo.com/v1` | Base URL for Open-Meteo Geocoding API |
-| `FORECAST_BASE_URL` | `https://api.open-meteo.com/v1` | Base URL for Open-Meteo Forecast API |
-| `REQUEST_TIMEOUT_MS` | `5000` | Request timeout in milliseconds |
-| `REPORTS_DIR` | `reports` | Directory for saved weather reports |
+| Variable | Default value | Description                                  |
+| --- | --- |----------------------------------------------|
+| `GEOCODING_BASE_URL` | `https://geocoding-api.open-meteo.com/v1` | Base URL for Open-Meteo Geocoding API        |
+| `FORECAST_BASE_URL` | `https://api.open-meteo.com/v1` | Base URL for Open-Meteo Forecast API         |
+| `REQUEST_TIMEOUT_MS` | `5000` | Request timeout in milliseconds              |
+| `REPORTS_DIR` | `reports` | Directory for saved weather reports          |
+| `TEMPERATURE_UNIT` | `celsius` | Temperature units: `celsius` or `fahrenheit` |
+| `PRECIPITATION_UNIT` | `mm` | Precipitation units: `mm` or `inch`          |
 
 ## Running the application
 
@@ -194,6 +196,7 @@ reports/Москва-2026-09-12.json
 - API возвращает HTTP 5xx;
 - отсутствует сетевое соединение;
 - превышено время ожидания запроса;
+- неизвестный аргумент командной строки;
 - API возвращает некорректный JSON.
 
 Например:
