@@ -8,6 +8,14 @@ const DEFAULT_FORECAST_BASE_URL =
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 5000;
 
+export type TemperatureUnit =
+  | 'celsius'
+  | 'fahrenheit';
+
+export type PrecipitationUnit =
+  | 'mm'
+  | 'inch';
+
 function parsePositiveInteger(
   value: string | undefined,
   fallback: number,
@@ -28,6 +36,38 @@ function parsePositiveInteger(
   return parsedValue;
 }
 
+function parseTemperatureUnit(
+  value: string | undefined,
+): TemperatureUnit {
+  if (value === undefined) {
+    return 'celsius';
+  }
+
+  if (value === 'celsius' || value === 'fahrenheit') {
+    return value;
+  }
+
+  throw new Error(
+    'TEMPERATURE_UNIT должен быть "celsius" или "fahrenheit"',
+  );
+}
+
+function parsePrecipitationUnit(
+  value: string | undefined,
+): PrecipitationUnit {
+  if (value === undefined) {
+    return 'mm';
+  }
+
+  if (value === 'mm' || value === 'inch') {
+    return value;
+  }
+
+  throw new Error(
+    'PRECIPITATION_UNIT должен быть "mm" или "inch"',
+  );
+}
+
 export const config = {
   geocodingBaseUrl:
     process.env.GEOCODING_BASE_URL ??
@@ -44,4 +84,12 @@ export const config = {
   ),
 
   reportsDir: process.env.REPORTS_DIR ?? 'reports',
+
+  temperatureUnit: parseTemperatureUnit(
+    process.env.TEMPERATURE_UNIT,
+  ),
+
+  precipitationUnit: parsePrecipitationUnit(
+    process.env.PRECIPITATION_UNIT,
+  ),
 };

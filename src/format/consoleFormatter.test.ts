@@ -22,6 +22,8 @@ describe('formatWeatherReport', () => {
       longitude: 44.00205,
       timezone: 'Europe/Moscow',
       forecastDays: 2,
+      temperatureUnit: 'celsius',
+      precipitationUnit: 'mm',
       createdAt: '2026-09-11T12:00:00.000Z',
       days: [
         {

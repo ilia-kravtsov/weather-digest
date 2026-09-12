@@ -2,6 +2,18 @@ import type {
   WeatherReport,
 } from '../types/weatherReport.js';
 
+function getTemperatureLabel(
+  unit: WeatherReport['temperatureUnit'],
+): string {
+  return unit === 'fahrenheit' ? '°F' : '°C';
+}
+
+function getPrecipitationLabel(
+  unit: WeatherReport['precipitationUnit'],
+): string {
+  return unit === 'inch' ? 'in' : 'мм';
+}
+
 export function formatWeatherReport(
   report: WeatherReport,
 ): string {
@@ -21,8 +33,16 @@ export function formatWeatherReport(
 
   lines.push('');
 
+  const temperatureLabel = getTemperatureLabel(
+    report.temperatureUnit,
+  );
+
+  const precipitationLabel = getPrecipitationLabel(
+    report.precipitationUnit,
+  );
+
   lines.push(
-    'Дата        Мин., °C   Макс., °C   Осадки, мм',
+    `Дата        Мин., ${temperatureLabel}   Макс., ${temperatureLabel}   Осадки, ${precipitationLabel}`,
   );
 
   for (const day of report.days) {

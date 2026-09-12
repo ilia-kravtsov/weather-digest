@@ -109,6 +109,13 @@ export async function readCachedReport(
   }
 
   if (
+    report.temperatureUnit !== config.temperatureUnit ||
+    report.precipitationUnit !== config.precipitationUnit
+  ) {
+    return null;
+  }
+
+  if (
     report.requestedCity.toLowerCase() !==
     city.toLowerCase()
   ) {
@@ -138,6 +145,8 @@ function isWeatherReport(
     typeof report.longitude === 'number' &&
     typeof report.timezone === 'string' &&
     typeof report.forecastDays === 'number' &&
+    typeof report.temperatureUnit === 'string' &&
+    typeof report.precipitationUnit === 'string' &&
     typeof report.createdAt === 'string' &&
     Array.isArray(report.days)
   );
