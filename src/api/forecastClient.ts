@@ -40,6 +40,8 @@ export async function fetchForecast(
       'temperature_2m_max,temperature_2m_min,precipitation_sum',
     forecast_days: String(days),
     timezone: 'auto',
+    temperature_unit: config.temperatureUnit,
+    precipitation_unit: config.precipitationUnit,
   }).toString();
 
   const data = await fetchJson<ForecastApiResponse>(url);

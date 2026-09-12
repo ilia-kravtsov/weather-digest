@@ -10,6 +10,8 @@ import type {
   WeatherReport,
 } from '../types/weatherReport.js';
 
+import { config } from '../config.js';
+
 export function createWeatherReport(
   requestedCity: string,
   forecastDays: number,
@@ -28,6 +30,10 @@ export function createWeatherReport(
     timezone: forecast.timezone,
 
     forecastDays,
+
+    temperatureUnit: config.temperatureUnit,
+    precipitationUnit: config.precipitationUnit,
+
     createdAt: new Date().toISOString(),
 
     days: forecast.days,
