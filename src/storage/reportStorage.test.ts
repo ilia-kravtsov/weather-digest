@@ -1,24 +1,11 @@
-import {
-  mkdtemp,
-  readFile,
-  rm,
-  writeFile,
-} from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 
 import os from 'node:os';
 import path from 'node:path';
 
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
 import {
   getReportPath,
@@ -58,9 +45,7 @@ const report: WeatherReport = {
 };
 
 beforeEach(async () => {
-  tempDir = await mkdtemp(
-    path.join(os.tmpdir(), 'weather-digest-'),
-  );
+  tempDir = await mkdtemp(path.join(os.tmpdir(), 'weather-digest-'));
 });
 
 afterEach(async () => {
@@ -72,38 +57,21 @@ afterEach(async () => {
 
 describe('reportStorage', () => {
   it('creates report path using city and date', () => {
-    const reportPath = getReportPath(
-      'Нижний Новгород',
-      tempDir,
-      date,
-    );
+    const reportPath = getReportPath('Нижний Новгород', tempDir, date);
 
-    expect(path.basename(reportPath)).toBe(
-      'Нижний Новгород-2026-09-11.json',
-    );
+    expect(path.basename(reportPath)).toBe('Нижний Новгород-2026-09-11.json');
   });
 
   it('saves report as JSON', async () => {
-    const reportPath = await saveReport(
-      report,
-      tempDir,
-      date,
-    );
+    const reportPath = await saveReport(report, tempDir, date);
 
-    const content = await readFile(
-      reportPath,
-      'utf8',
-    );
+    const content = await readFile(reportPath, 'utf8');
 
     expect(JSON.parse(content)).toEqual(report);
   });
 
   it('reads valid cached report', async () => {
-    await saveReport(
-      report,
-      tempDir,
-      date,
-    );
+    await saveReport(report, tempDir, date);
 
     const cachedReport = await readCachedReport(
       'Нижний Новгород',
@@ -116,22 +84,13 @@ describe('reportStorage', () => {
   });
 
   it('returns null when cache does not exist', async () => {
-    const cachedReport = await readCachedReport(
-      'Москва',
-      3,
-      tempDir,
-      date,
-    );
+    const cachedReport = await readCachedReport('Москва', 3, tempDir, date);
 
     expect(cachedReport).toBeNull();
   });
 
   it('returns null when forecast days do not match', async () => {
-    await saveReport(
-      report,
-      tempDir,
-      date,
-    );
+    await saveReport(report, tempDir, date);
 
     const cachedReport = await readCachedReport(
       'Нижний Новгород',
@@ -144,17 +103,9 @@ describe('reportStorage', () => {
   });
 
   it('returns null for invalid JSON', async () => {
-    const reportPath = getReportPath(
-      'Нижний Новгород',
-      tempDir,
-      date,
-    );
+    const reportPath = getReportPath('Нижний Новгород', tempDir, date);
 
-    await writeFile(
-      reportPath,
-      'invalid json',
-      'utf8',
-    );
+    await writeFile(reportPath, 'invalid json', 'utf8');
 
     const cachedReport = await readCachedReport(
       'Нижний Новгород',

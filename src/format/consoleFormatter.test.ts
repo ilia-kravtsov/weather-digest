@@ -1,16 +1,8 @@
-import {
-  describe,
-  expect,
-  it,
-} from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
-import {
-  formatWeatherReport,
-} from './consoleFormatter.js';
+import { formatWeatherReport } from './consoleFormatter.js';
 
 describe('formatWeatherReport', () => {
   it('formats weather report for console output', () => {
@@ -43,17 +35,11 @@ describe('formatWeatherReport', () => {
 
     const result = formatWeatherReport(report);
 
-    expect(result).toContain(
-      'Погода: Нижний Новгород, Россия',
-    );
+    expect(result).toContain('Погода: Нижний Новгород, Россия');
 
-    expect(result).toContain(
-      'Координаты: 56.32867, 44.00205',
-    );
+    expect(result).toContain('Координаты: 56.32867, 44.00205');
 
-    expect(result).toContain(
-      'Часовой пояс: Europe/Moscow',
-    );
+    expect(result).toContain('Часовой пояс: Europe/Moscow');
 
     expect(result).toContain('Дата');
     expect(result).toContain('Мин., °C');

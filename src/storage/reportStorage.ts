@@ -1,21 +1,15 @@
-import {
-  mkdir,
-  readFile,
-  writeFile,
-} from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
 import path from 'node:path';
 
 import { config } from '../config.js';
 
-import type {
-  WeatherReport,
-} from '../types/weatherReport.js';
+import type { WeatherReport } from '../types/weatherReport.js';
 
 function formatDate(date: Date): string {
   const year = date.getFullYear();
 
-  const month = String(date.getMonth() + 1).padStart(2, '0',);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
 
   const day = String(date.getDate()).padStart(2, '0');
 
@@ -23,9 +17,7 @@ function formatDate(date: Date): string {
 }
 
 function sanitizeCityForFilename(city: string): string {
-  return city
-    .replace(/[<>:"/\\|?*]/g, '_')
-    .replace(/[. ]+$/g, '');
+  return city.replace(/[<>:"/\\|?*]/g, '_').replace(/[. ]+$/g, '');
 }
 
 export function getReportPath(
@@ -49,17 +41,9 @@ export async function saveReport(
     recursive: true,
   });
 
-  const reportPath = getReportPath(
-    report.requestedCity,
-    reportsDir,
-    date,
-  );
+  const reportPath = getReportPath(report.requestedCity, reportsDir, date);
 
-  await writeFile(
-    reportPath,
-    JSON.stringify(report, null, 2),
-    'utf8',
-  );
+  await writeFile(reportPath, JSON.stringify(report, null, 2), 'utf8');
 
   return reportPath;
 }
@@ -70,22 +54,14 @@ export async function readCachedReport(
   reportsDir = config.reportsDir,
   date = new Date(),
 ): Promise<WeatherReport | null> {
-  const reportPath = getReportPath(
-    city,
-    reportsDir,
-    date,
-  );
+  const reportPath = getReportPath(city, reportsDir, date);
 
   let content: string;
 
   try {
     content = await readFile(reportPath, 'utf8');
   } catch (error) {
-    if (
-      error instanceof Error &&
-      'code' in error &&
-      error.code === 'ENOENT'
-    ) {
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
       return null;
     }
 
@@ -115,23 +91,15 @@ export async function readCachedReport(
     return null;
   }
 
-  if (
-    report.requestedCity.toLowerCase() !==
-    city.toLowerCase()
-  ) {
+  if (report.requestedCity.toLowerCase() !== city.toLowerCase()) {
     return null;
   }
 
   return report;
 }
 
-function isWeatherReport(
-  value: unknown,
-): value is WeatherReport {
-  if (
-    typeof value !== 'object' ||
-    value === null
-  ) {
+function isWeatherReport(value: unknown): value is WeatherReport {
+  if (typeof value !== 'object' || value === null) {
     return false;
   }
 

@@ -5,11 +5,7 @@ export interface CliOptions {
 }
 
 export function parseArgs(args: string[]): CliOptions {
-  const allowedArguments = new Set([
-    '--city',
-    '--days',
-    '--no-cache',
-  ]);
+  const allowedArguments = new Set(['--city', '--days', '--no-cache']);
 
   for (let index = 0; index < args.length; index++) {
     const argument = args[index];
@@ -19,9 +15,7 @@ export function parseArgs(args: string[]): CliOptions {
       }
 
       if (!allowedArguments.has(argument)) {
-        throw new Error(
-          `Неизвестный аргумент: ${argument}`,
-        );
+        throw new Error(`Неизвестный аргумент: ${argument}`);
       }
     }
   }

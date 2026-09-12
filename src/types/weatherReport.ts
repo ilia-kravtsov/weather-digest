@@ -1,8 +1,5 @@
 import type { ForecastDay } from '../api/forecastClient.js';
-import type {
-  PrecipitationUnit,
-  TemperatureUnit,
-} from '../config.js';
+import type { PrecipitationUnit, TemperatureUnit } from '../config.js';
 
 export interface WeatherReport {
   requestedCity: string;

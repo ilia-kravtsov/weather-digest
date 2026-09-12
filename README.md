@@ -47,14 +47,14 @@ cp .env.example .env
 
 ## Environment variables
 
-| Variable | Default value | Description                                  |
-| --- | --- |----------------------------------------------|
+| Variable             | Default value                             | Description                                  |
+| -------------------- | ----------------------------------------- | -------------------------------------------- |
 | `GEOCODING_BASE_URL` | `https://geocoding-api.open-meteo.com/v1` | Base URL for Open-Meteo Geocoding API        |
-| `FORECAST_BASE_URL` | `https://api.open-meteo.com/v1` | Base URL for Open-Meteo Forecast API         |
-| `REQUEST_TIMEOUT_MS` | `5000` | Request timeout in milliseconds              |
-| `REPORTS_DIR` | `reports` | Directory for saved weather reports          |
-| `TEMPERATURE_UNIT` | `celsius` | Temperature units: `celsius` or `fahrenheit` |
-| `PRECIPITATION_UNIT` | `mm` | Precipitation units: `mm` or `inch`          |
+| `FORECAST_BASE_URL`  | `https://api.open-meteo.com/v1`           | Base URL for Open-Meteo Forecast API         |
+| `REQUEST_TIMEOUT_MS` | `5000`                                    | Request timeout in milliseconds              |
+| `REPORTS_DIR`        | `reports`                                 | Directory for saved weather reports          |
+| `TEMPERATURE_UNIT`   | `celsius`                                 | Temperature units: `celsius` or `fahrenheit` |
+| `PRECIPITATION_UNIT` | `mm`                                      | Precipitation units: `mm` or `inch`          |
 
 ## Running the application
 
@@ -211,10 +211,10 @@ reports/Москва-2026-09-12.json
 
 ## Exit codes
 
-| Code | Meaning |
-| --- | --- |
-| `0` | Все запрошенные города обработаны успешно |
-| `1` | Произошла ошибка аргументов, сети, API или обработки данных |
+| Code | Meaning                                                     |
+| ---- | ----------------------------------------------------------- |
+| `0`  | Все запрошенные города обработаны успешно                   |
+| `1`  | Произошла ошибка аргументов, сети, API или обработки данных |
 
 Если запрошено несколько городов и хотя бы один из них завершился с ошибкой, остальные города всё равно обрабатываются, но итоговый код завершения процесса будет `1`
 

@@ -1,10 +1,4 @@
-import {
-  afterEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { geocodeCity } from './geocodingClient.js';
 import { fetchJson } from './httpClient.js';
@@ -64,33 +58,22 @@ describe('geocodeCity', () => {
 
     expect(fetchJsonMock).toHaveBeenCalledOnce();
 
-    const requestedUrl =
-      fetchJsonMock.mock.calls[0]![0];
+    const requestedUrl = fetchJsonMock.mock.calls[0]![0];
 
     expect(requestedUrl).toBeInstanceOf(URL);
-    expect(requestedUrl.origin).toBe(
-      'https://geocoding.test',
-    );
+    expect(requestedUrl.origin).toBe('https://geocoding.test');
     expect(requestedUrl.pathname).toBe('/v1/search');
 
-    expect(requestedUrl.searchParams.get('name')).toBe(
-      'Москва',
-    );
+    expect(requestedUrl.searchParams.get('name')).toBe('Москва');
     expect(requestedUrl.searchParams.get('count')).toBe('1');
-    expect(requestedUrl.searchParams.get('language')).toBe(
-      'ru',
-    );
-    expect(requestedUrl.searchParams.get('format')).toBe(
-      'json',
-    );
+    expect(requestedUrl.searchParams.get('language')).toBe('ru');
+    expect(requestedUrl.searchParams.get('format')).toBe('json');
   });
 
   it('throws an error when city is not found', async () => {
     fetchJsonMock.mockResolvedValue({});
 
-    await expect(
-      geocodeCity('НесуществующийГород'),
-    ).rejects.toThrow(
+    await expect(geocodeCity('НесуществующийГород')).rejects.toThrow(
       'Город "НесуществующийГород" не найден',
     );
   });

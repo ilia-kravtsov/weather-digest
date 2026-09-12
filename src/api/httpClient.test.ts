@@ -1,10 +1,4 @@
-import {
-  afterEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
   ClientHttpError,
@@ -35,9 +29,7 @@ describe('fetchJson', () => {
       }),
     );
 
-    const result = await fetchJson<typeof data>(
-      new URL('https://example.com'),
-    );
+    const result = await fetchJson<typeof data>(new URL('https://example.com'));
 
     expect(result).toEqual(data);
   });
@@ -91,28 +83,23 @@ describe('fetchJson', () => {
   });
 
   it('throws TimeoutError when request exceeds timeout', async () => {
-    vi.spyOn(globalThis, 'fetch').mockImplementation(
-      async (_url, options) => {
-        return await new Promise<Response>((_resolve, reject) => {
-          const signal = options?.signal;
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async (_url, options) => {
+      return await new Promise<Response>((_resolve, reject) => {
+        const signal = options?.signal;
 
-          signal?.addEventListener('abort', () => {
-            const error = new Error('Aborted');
-            error.name = 'AbortError';
+        signal?.addEventListener('abort', () => {
+          const error = new Error('Aborted');
+          error.name = 'AbortError';
 
-            reject(error);
-          });
+          reject(error);
         });
-      },
-    );
+      });
+    });
 
     await expect(
-      fetchJson(
-        new URL('https://example.com'),
-        {
-          timeoutMs: 10,
-        },
-      ),
+      fetchJson(new URL('https://example.com'), {
+        timeoutMs: 10,
+      }),
     ).rejects.toBeInstanceOf(TimeoutError);
   });
 });

@@ -1,12 +1,8 @@
 import { parseArgs } from './cli/parseArgs.js';
 
-import {
-  processCity,
-} from './services/cityWeatherService.js';
+import { processCity } from './services/cityWeatherService.js';
 
-import {
-  formatWeatherReport,
-} from './format/consoleFormatter.js';
+import { formatWeatherReport } from './format/consoleFormatter.js';
 
 async function main(): Promise<void> {
   try {
@@ -28,11 +24,7 @@ async function main(): Promise<void> {
       const city = options.cities[index];
 
       if (result.status === 'fulfilled') {
-        const {
-          report,
-          fromCache,
-          reportPath,
-        } = result.value;
+        const { report, fromCache, reportPath } = result.value;
 
         console.log('');
 
@@ -43,7 +35,7 @@ async function main(): Promise<void> {
         console.log(formatWeatherReport(report));
 
         if (reportPath) {
-          console.log(`Отчёт сохранён: ${reportPath}`,);
+          console.log(`Отчёт сохранён: ${reportPath}`);
         }
 
         return;
@@ -56,9 +48,7 @@ async function main(): Promise<void> {
           `\nОшибка для города "${city}": ${result.reason.message}`,
         );
       } else {
-        console.error(
-          `\nОшибка для города "${city}": неизвестная ошибка`,
-        );
+        console.error(`\nОшибка для города "${city}": неизвестная ошибка`);
       }
     });
 

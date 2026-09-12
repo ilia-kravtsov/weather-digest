@@ -17,12 +17,8 @@ interface GeocodingApiResponse {
   }>;
 }
 
-export async function geocodeCity(
-  city: string,
-): Promise<GeocodingResult> {
-  const url = new URL(
-    `${config.geocodingBaseUrl}/search`,
-  );
+export async function geocodeCity(city: string): Promise<GeocodingResult> {
+  const url = new URL(`${config.geocodingBaseUrl}/search`);
 
   url.search = new URLSearchParams({
     name: city,
