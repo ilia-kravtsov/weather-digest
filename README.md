@@ -250,6 +250,18 @@ docker run --rm \
   --city "Москва" --days 1 --no-cache
 ```
 
+## HTML Report Viewer
+
+Saved JSON reports can be viewed via an HTML page
+
+Open the file:
+
+`docs/report-viewer/index.html`
+
+in the browser and select the JSON report from the directory `reports/`
+
+The page reads the selected file, parses the JSON, and displays information about the city and the weather forecast
+
 ## Project structure
 
 ```text

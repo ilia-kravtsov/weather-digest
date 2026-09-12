@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Digest Report Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>Weather Digest Report Viewer</h1>
+
+      <p class="description">Выберите JSON-отчёт</p>
+
+      <input
+        id="report-file"
+        class="file-input"
+        type="file"
+        accept=".json,application/json"
+      />
+
+      <p id="error-message" class="error" hidden></p>
+
+      <section id="report" class="report" hidden>
+        <h2 id="city-name"></h2>
+
+        <dl class="report-info">
+          <div>
+            <dt>Страна</dt>
+            <dd id="country"></dd>
+          </div>
+
+          <div>
+            <dt>Координаты</dt>
+            <dd id="coordinates"></dd>
+          </div>
+
+          <div>
+            <dt>Часовой пояс</dt>
+            <dd id="timezone"></dd>
+          </div>
+
+          <div>
+            <dt>Создан</dt>
+            <dd id="created-at"></dd>
+          </div>
+        </dl>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th id="min-temperature-heading">Мин. температура</th>
+              <th id="max-temperature-heading">Макс. температура</th>
+              <th id="precipitation-heading">Осадки</th>
+            </tr>
+          </thead>
+
+          <tbody id="forecast-body"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
