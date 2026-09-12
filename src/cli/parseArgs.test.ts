@@ -95,4 +95,16 @@ describe('parseArgs', () => {
       parseArgs(['--city', 'Москва', '--days', '2.5']),
     ).toThrow('--days должен быть целым числом от 1 до 7');
   });
+
+  it('throws an error for unknown argument', () => {
+    expect(() =>
+      parseArgs([
+        '--city',
+        'Москва',
+        '--no-cachee',
+      ]),
+    ).toThrow(
+      'Неизвестный аргумент: --no-cachee',
+    );
+  });
 });

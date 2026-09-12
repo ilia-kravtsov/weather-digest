@@ -5,6 +5,27 @@ export interface CliOptions {
 }
 
 export function parseArgs(args: string[]): CliOptions {
+  const allowedArguments = new Set([
+    '--city',
+    '--days',
+    '--no-cache',
+  ]);
+
+  for (let index = 0; index < args.length; index++) {
+    const argument = args[index];
+    if (argument) {
+      if (!argument.startsWith('--')) {
+        continue;
+      }
+
+      if (!allowedArguments.has(argument)) {
+        throw new Error(
+          `Неизвестный аргумент: ${argument}`,
+        );
+      }
+    }
+  }
+
   const cityIndex = args.indexOf('--city');
   const daysIndex = args.indexOf('--days');
 
