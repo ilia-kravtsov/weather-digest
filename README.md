@@ -224,6 +224,32 @@ reports/Москва-2026-09-12.json
 echo $?
 ```
 
+## Docker
+
+Приложение можно собрать и запустить в Docker-контейнере
+
+### Image build
+
+```bash
+docker build -t weather-digest .
+```
+
+### Launch
+
+```bash
+docker run --rm weather-digest --city "Москва" --days 3 --no-cache
+```
+
+### Environment variables are passed via the -e parameter:
+
+```bash
+docker run --rm \
+  -e TEMPERATURE_UNIT=fahrenheit \
+  -e PRECIPITATION_UNIT=inch \
+  weather-digest \
+  --city "Москва" --days 1 --no-cache
+```
+
 ## Project structure
 
 ```text
