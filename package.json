@@ -1,8 +1,8 @@
 {
   "name": "weather-digest",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Console weather digest utility using Open-Meteo API",
+  "main": "dist/index.js",
   "scripts": {
     "test": "vitest run",
     "build": "tsc",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/ilia-kravtsov/weather-digest.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "ilia-kravtsov",
   "license": "ISC",
   "type": "module",
   "bugs": {
