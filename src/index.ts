@@ -4,6 +4,10 @@ import {
   processCity,
 } from './services/cityWeatherService.js';
 
+import {
+  formatWeatherReport,
+} from './format/consoleFormatter.js';
+
 async function main(): Promise<void> {
   try {
     const args = process.argv.slice(2);
@@ -30,13 +34,13 @@ async function main(): Promise<void> {
           reportPath,
         } = result.value;
 
-        console.log(`\n=== ${report.city} ===`);
+        console.log('');
 
         if (fromCache) {
           console.log('Использован кешированный отчёт');
         }
 
-        console.log(report);
+        console.log(formatWeatherReport(report));
 
         if (reportPath) {
           console.log(`Отчёт сохранён: ${reportPath}`,);
